@@ -1,682 +1,175 @@
-<!doctype html>
-<html lang="id" style="height: 100%;">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catatan Steam</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.5;
-    }
-    .h-full { height: 100%; }
-    .w-full { width: 100%; }
-    .max-w-4xl { max-width: 56rem; margin-left: auto; margin-right: auto; }
-    .grid { display: grid; }
-    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .gap-2 { gap: 0.5rem; }
-    .gap-3 { gap: 0.75rem; }
-    .gap-4 { gap: 1rem; }
-    .gap-6 { gap: 1.5rem; }
-    .flex { display: flex; }
-    .flex-wrap { flex-wrap: wrap; }
-    .flex-1 { flex: 1 1 0%; }
-    .items-center { align-items: center; }
-    .justify-center { justify-content: center; }
-    .justify-between { justify-content: space-between; }
-    .inline-flex { display: inline-flex; }
-    .text-center { text-align: center; }
-    .text-right { text-align: right; }
-    .overflow-auto { overflow: auto; }
-    .min-h-full { min-height: 100%; }
-    .p-4 { padding: 1rem; }
-    .p-6 { padding: 1.5rem; }
-    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-    .px-4 { padding-left: 1rem; padding-right: 1rem; }
-    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-    .mb-1 { margin-bottom: 0.25rem; }
-    .mb-2 { margin-bottom: 0.5rem; }
-    .mb-3 { margin-bottom: 0.75rem; }
-    .mb-4 { margin-bottom: 1rem; }
-    .mb-6 { margin-bottom: 1.5rem; }
-    .mb-8 { margin-bottom: 2rem; }
-    .mt-1 { margin-top: 0.25rem; }
-    .mt-6 { margin-top: 1.5rem; }
-    .mt-8 { margin-top: 2rem; }
-    .mx-auto { margin-left: auto; margin-right: auto; }
-    .text-xs { font-size: 0.75rem; line-height: 1rem; }
-    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
-    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-    .font-semibold { font-weight: 600; }
-    .font-bold { font-weight: 700; }
-    .font-extrabold { font-weight: 800; }
-    .font-medium { font-weight: 500; }
-    .rounded { border-radius: 0.25rem; }
-    .rounded-xl { border-radius: 0.75rem; }
-    .rounded-2xl { border-radius: 1rem; }
-    .rounded-lg { border-radius: 0.5rem; }
-    .rounded-full { border-radius: 9999px; }
-    .space-y-2 > * + * { margin-top: 0.5rem; }
-    .space-y-4 > * + * { margin-top: 1rem; }
-    .block { display: block; }
-    .hidden { display: none; }
-    .fixed { position: fixed; }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .bottom-4 { bottom: 1rem; }
-    .right-4 { right: 1rem; }
-    .z-50 { z-index: 50; }
-    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-    .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-    .duration-300 { transition-duration: 300ms; }
-    .transform { transform: translateX(0) translateY(0) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1); }
-    .translate-y-0 { transform: translateY(0); }
-    .translate-y-20 { transform: translateY(5rem); }
-    .opacity-0 { opacity: 0; }
-    .opacity-100 { opacity: 1; }
-    .w-8 { width: 2rem; }
-    .h-8 { height: 2rem; }
-    .w-10 { width: 2.5rem; }
-    .h-10 { height: 2.5rem; }
-    .w-12 { width: 3rem; }
-    .h-12 { height: 3rem; }
-    .text-white { color: rgb(248, 250, 252); }
-    .text-slate-400 { color: rgb(148, 163, 184); }
-    .text-slate-500 { color: rgb(100, 116, 139); }
-    .text-blue-400 { color: rgb(96, 165, 250); }
-    .text-purple-400 { color: rgb(192, 132, 252); }
-    .text-green-400 { color: rgb(74, 222, 128); }
-    .text-yellow-300 { color: rgb(253, 224, 71); }
-    .text-yellow-400 { color: rgb(250, 204, 21); }
-    .text-red-400 { color: rgb(248, 113, 113); }
-    .text-red-300 { color: rgb(252, 165, 165); }
-    .bg-slate-800\/50 { background: rgba(30, 41, 59, 0.5); }
-    .bg-slate-800\/30 { background: rgba(30, 41, 59, 0.3); }
-    .bg-red-500\/20 { background: rgba(239, 68, 68, 0.2); }
-    .bg-red-500\/30 { background: rgba(239, 68, 68, 0.3); }
-    .bg-green-500\/20 { background: rgba(34, 197, 94, 0.2); }
-    .bg-green-500\/30 { background: rgba(34, 197, 94, 0.3); }
-    .bg-blue-500\/20 { background: rgba(59, 130, 246, 0.2); }
-    .bg-green-500 { background-color: rgb(34, 197, 94); }
-    .bg-red-500 { background-color: rgb(239, 68, 68); }
-    .bg-slate-600 { background-color: rgb(71, 85, 105); }
-    .placeholder-slate-500::placeholder { color: rgb(100, 116, 139); }
-    
-    @media (min-width: 768px) {
-      .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .md\:p-6 { padding: 1.5rem; }
-      .md\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-    }
-    @media (min-width: 1024px) {
-      .lg\:p-8 { padding: 2rem; }
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #1a1408 0%, #2d2409 50%, #3d3211 100%);
-    }
-    .card-glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #fbbf24 0%, #eab308 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(234, 179, 8, 0.3);
-    }
-    .btn-danger {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-danger:hover {
-      background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-    }
-    .input-dark {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-    .input-dark:focus {
-      border-color: #eab308;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
-    }
-    .stat-card {
-      background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(202, 138, 4, 0.1) 100%);
-      border: 1px solid rgba(234, 179, 8, 0.2);
-    }
-    .day-tab {
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .day-tab.active {
-      background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-      color: white;
-    }
-    .day-tab:not(.active):hover {
-      background: rgba(234, 179, 8, 0.2);
-    }
-    .fade-in {
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .counter-btn {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      font-size: 1.25rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-    .counter-btn:hover {
-      transform: scale(1.1);
-    }
-    .counter-btn:active {
-      transform: scale(0.95);
-    }
-    .scroll-area {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    .scroll-area::-webkit-scrollbar {
-      width: 6px;
-    }
-    .scroll-area::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 3px;
-    }
-    .scroll-area::-webkit-scrollbar-thumb {
-      background: rgba(234, 179, 8, 0.5);
-      border-radius: 3px;
-    }
-    .delete-confirm {
-      animation: shake 0.3s ease;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-  </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
- </head>
- <body class="h-full gradient-bg text-white">
-  <div id="app" class="h-full overflow-auto">
-   <div class="min-h-full p-4 md:p-6 lg:p-8"><!-- Header -->
-    <header class="text-center mb-8">
-     <div class="inline-flex items-center gap-3 mb-2">
-      <svg class="w-10 h-10 text-yellow-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-      </svg>
-      <h1 style="font-size: 1.875rem; font-weight: 800; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">CATATAN STEAM</h1>
-     </div>
-     <p class="text-slate-400 text-sm">CATATAN PENGELUARAN DAN PENGHASILAN</p>
-    </header><!-- Day Tabs -->
-    <div class="flex flex-wrap justify-center gap-2 mb-6"><button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Senin">Senin</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Selasa">Selasa</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Rabu">Rabu</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Kamis">Kamis</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Jumat">Jumat</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Sabtu">Sabtu</button> <button class="day-tab px-4 py-2 rounded-xl text-sm font-semibold" data-day="Minggu">Minggu</button>
-    </div><!-- Current Date Display -->
-    <div class="text-center mb-6">
-     <p id="current-date" class="text-slate-400 text-sm"></p>
-    </div><!-- Stats Overview -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
-     <div class="stat-card rounded-2xl p-4 text-center">
-      <p class="text-slate-400 text-xs mb-1">Motor Biasa</p>
-      <p id="stat-biasa" class="text-2xl font-bold text-yellow-400">0</p>
-      <p class="text-slate-500 text-xs">@ Rp 7.000</p>
-     </div>
-     <div class="stat-card rounded-2xl p-4 text-center">
-      <p class="text-slate-400 text-xs mb-1">Motor Besar</p>
-      <p id="stat-besar" class="text-2xl font-bold text-yellow-300">0</p>
-      <p class="text-slate-500 text-xs">@ Rp 8.000</p>
-     </div>
-     <div class="stat-card rounded-2xl p-4 text-center">
-      <p class="text-slate-400 text-xs mb-1">Pendapatan</p>
-      <p id="stat-income" class="text-2xl font-bold text-green-400">Rp 0</p>
-     </div>
-     <div class="stat-card rounded-2xl p-4 text-center">
-      <p class="text-slate-400 text-xs mb-1">Bersih</p>
-      <p id="stat-net" class="text-2xl font-bold text-yellow-400">Rp 0</p>
-     </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webricoo</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+<style>
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: white;
+}
+
+/* Container */
+.wrapper{
+    max-width: 420px;
+    margin: auto;
+    padding: 25px 15px 40px;
+}
+
+/* Profile */
+.profile{
+    text-align: center;
+    margin-bottom: 25px;
+}
+.profile img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #22c;
+}
+.profile h1{
+    margin-top: 12px;
+    font-size: 22px;
+}
+.profile p{
+    font-size: 14px;
+    color: #cbd5f5;
+}
+
+/* Buttons */
+.links a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    padding: 14px;
+    border-radius: 30px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.links a:hover{
+    background: #22c;
+    color: white;
+    transform: scale(1.03);
+}
+
+/* Section */
+.section{
+    margin-top: 35px;
+}
+.section h2{
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Services */
+.service{
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: center;
+}
+.service span{
+    font-size: 28px;
+    color: #22c55e;
+}
+.service h3{
+    font-size: 15px;
+}
+.service p{
+    font-size: 13px;
+    color: #d1d5db;
+}
+
+footer{
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 35px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="profile">
+        <img src="https://files.catbox.moe/86c2db.jpeg">
+        <h1>KINK RICOO</h1>
+        <p>-ADMIN FT GANTENG-</p>
+        <p>SALURAN DAN SOSMED GW DI BAWAH</p>
     </div>
-    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6"><!-- Income Section -->
-     <div class="card-glass rounded-2xl p-6">
-      <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg" style="background: rgba(234, 179, 8, 0.2); display: flex; align-items: center; justify-content: center;">💰</span> Catat Pendapatan</h2><!-- Motor Biasa Counter -->
-      <div class="bg-slate-800/50 rounded-xl p-4 mb-4">
-       <div class="flex items-center justify-between">
-        <div>
-         <p class="font-semibold text-white">Motor Biasa</p>
-         <p class="text-sm text-slate-400">Harga: Rp 15.000 • Anda dapat: Rp 7.000</p>
-        </div>
-        <div class="flex items-center gap-3"><button id="biasa-minus" class="counter-btn bg-red-500/20 text-red-400 hover:bg-red-500/30">−</button> <span id="biasa-count" class="text-2xl font-bold w-12 text-center">0</span> <button id="biasa-plus" class="counter-btn bg-green-500/20 text-green-400 hover:bg-green-500/30">+</button>
-        </div>
-       </div>
-      </div><!-- Motor Besar Counter -->
-      <div class="bg-slate-800/50 rounded-xl p-4 mb-4">
-       <div class="flex items-center justify-between">
-        <div>
-         <p class="font-semibold text-white">Motor Besar</p>
-         <p class="text-sm text-slate-400">Anda dapat: Rp 8.000</p>
-        </div>
-        <div class="flex items-center gap-3"><button id="besar-minus" class="counter-btn bg-red-500/20 text-red-400 hover:bg-red-500/30">−</button> <span id="besar-count" class="text-2xl font-bold w-12 text-center">0</span> <button id="besar-plus" class="counter-btn bg-green-500/20 text-green-400 hover:bg-green-500/30">+</button>
-        </div>
-       </div>
-      </div><button id="save-income" class="btn-primary w-full py-3 rounded-xl font-semibold text-white"> 💾 Simpan Pendapatan Hari Ini </button> <!-- Income History -->
-      <div class="mt-6">
-       <h3 class="text-sm font-semibold text-slate-400 mb-3">Riwayat Pendapatan</h3>
-       <div id="income-list" class="scroll-area space-y-2">
-        <p class="text-slate-500 text-sm text-center py-4">Belum ada data pendapatan</p>
-       </div>
-      </div>
-     </div><!-- Expense Section -->
-     <div class="card-glass rounded-2xl p-6">
-      <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">📝</span> Catat Pengeluaran</h2>
-      <form id="expense-form" class="space-y-4">
-       <div><label for="expense-desc" class="block text-sm text-slate-400 mb-2">Keterangan</label> <input type="text" id="expense-desc" placeholder="hemat dongo" class="input-dark w-full px-4 py-3 rounded-xl text-white placeholder-slate-500">
-       </div>
-       <div><label for="expense-amount" class="block text-sm text-slate-400 mb-2">Jumlah (Rp)</label> <input type="number" id="expense-amount" placeholder="0" min="0" class="input-dark w-full px-4 py-3 rounded-xl text-white placeholder-slate-500">
-       </div><button type="submit" class="btn-danger w-full py-3 rounded-xl font-semibold text-white"> ➕ Tambah Pengeluaran </button>
-      </form><!-- Expense History -->
-      <div class="mt-6">
-       <div class="flex justify-between items-center mb-3">
-        <h3 class="text-sm font-semibold text-slate-400">Riwayat Pengeluaran</h3>
-        <p id="total-expense" class="text-sm font-semibold text-red-400">Total: Rp 0</p>
-       </div>
-       <div id="expense-list" class="scroll-area space-y-2">
-        <p class="text-slate-500 text-sm text-center py-4">Belum ada pengeluaran</p>
-       </div>
-      </div>
-     </div>
-    </div><!-- Weekly Summary -->
-    <div class="max-w-4xl mx-auto mt-8 card-glass rounded-2xl p-6">
-     <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg" style="background: rgba(234, 179, 8, 0.2); display: flex; align-items: center; justify-content: center;">📊</span> Ringkasan Mingguan</h2>
-     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="text-center p-4 bg-slate-800/30 rounded-xl">
-       <p class="text-slate-400 text-xs mb-1">Total Pendapatan</p>
-       <p id="weekly-income" class="text-xl font-bold text-green-400">Rp 0</p>
-      </div>
-      <div class="text-center p-4 bg-slate-800/30 rounded-xl">
-       <p class="text-slate-400 text-xs mb-1">Total Pengeluaran</p>
-       <p id="weekly-expense" class="text-xl font-bold text-red-400">Rp 0</p>
-      </div>
-      <div class="text-center p-4 bg-slate-800/30 rounded-xl">
-       <p class="text-slate-400 text-xs mb-1">Pendapatan Bersih</p>
-       <p id="weekly-net" class="text-xl font-bold text-yellow-400">Rp 0</p>
-      </div>
-      <div class="text-center p-4 bg-slate-800/30 rounded-xl">
-       <p class="text-slate-400 text-xs mb-1">Total Motor</p>
-       <p id="weekly-motors" class="text-xl font-bold text-yellow-400">0</p>
-      </div>
-     </div>
-    </div><!-- Footer -->
-    <footer class="text-center mt-8 pb-4">
-     <p class="text-slate-500 text-xs">© 2026 Catatan Steam</p>
-    </footer>
-   </div>
-  </div><!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-   <p id="toast-message">Data berhasil disimpan!</p>
-  </div>
-  <script>
-    // LocalStorage Key
-    const STORAGE_KEY = 'cuci_motor_data';
 
-    let allData = [];
-    let currentDay = getCurrentDayName();
-    let biasaCount = 0;
-    let besarCount = 0;
-    let deleteConfirmId = null;
+    <div class="links">
+        <a href="https://wa.me/6283893758592">
+            <span class="material-symbols-outlined">chat</span>
+            WhatsApp
+        </a>
 
-    function getCurrentDayName() {
-      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      return days[new Date().getDay()];
-    }
+        <a href="https://www.instagram.com/nrikxp?igsh=MThzaXB2Z2wwdmN3OA==">
+            <span class="material-symbols-outlined">photo_camera</span>
+            Instagram
+        </a>
 
-    function formatDate(date) {
-      return new Date(date).toLocaleDateString('id-ID', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    }
+        <a href="https://chat.whatsapp.com/EzgOjnW8qj29W3aFEyt8FL?mode=gi_t">
+            <span class="material-symbols-outlined">groups</span>
+            GB FT DANNN
+        </a>
 
-    function formatCurrency(amount) {
-      return 'Rp ' + amount.toLocaleString('id-ID');
-    }
+        <a href="https://whatsapp.com/channel/0029VbBkyTyJJhzbnX7Qc017">
+            <span class="material-symbols-outlined">campaign</span>
+            SALURAN WA !TESTI!
+        </a>
+    </div>
 
-    function showToast(message, isError = false) {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      toastMessage.textContent = message;
-      toast.className = `fixed bottom-4 right-4 ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-0 opacity-100 transition-all duration-300 z-50`;
-      setTimeout(() => {
-        toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50';
-      }, 3000);
-    }
+    <div class="section">
+        <h2>GW MELAYANI</h2>
 
-    // LocalStorage Functions
-    function loadData() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          allData = JSON.parse(stored);
-        }
-      } catch (e) {
-        showToast('Gagal memuat data', true);
-        allData = [];
-      }
-      updateUI();
-    }
-
-    function saveData() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
-      } catch (e) {
-        showToast('Gagal menyimpan data ke browser', true);
-      }
-    }
-
-    function generateId() {
-      return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-    }
-
-    function updateDayTabs() {
-      document.querySelectorAll('.day-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.day === currentDay);
-      });
-      document.getElementById('current-date').textContent = `📅 ${currentDay}, ${formatDate(new Date())}`;
-    }
-
-    function getDayData() {
-      const incomes = allData.filter(d => d.type === 'income' && d.day === currentDay);
-      const expenses = allData.filter(d => d.type === 'expense' && d.day === currentDay);
-      return { incomes, expenses };
-    }
-
-    function updateStats() {
-      const { incomes, expenses } = getDayData();
-      
-      let totalBiasa = 0;
-      let totalBesar = 0;
-      incomes.forEach(i => {
-        totalBiasa += i.motor_biasa || 0;
-        totalBesar += i.motor_besar || 0;
-      });
-
-      const totalIncome = (totalBiasa * 7000) + (totalBesar * 8000);
-      const totalExpense = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
-      const netIncome = totalIncome - totalExpense;
-
-      document.getElementById('stat-biasa').textContent = totalBiasa;
-      document.getElementById('stat-besar').textContent = totalBesar;
-      document.getElementById('stat-income').textContent = formatCurrency(totalIncome);
-      document.getElementById('stat-net').textContent = formatCurrency(netIncome);
-      document.getElementById('stat-net').className = `text-2xl font-bold ${netIncome >= 0 ? 'text-green-400' : 'text-red-400'}`;
-      document.getElementById('total-expense').textContent = `Total: ${formatCurrency(totalExpense)}`;
-
-      updateWeeklySummary();
-    }
-
-    function updateWeeklySummary() {
-      let weeklyIncome = 0;
-      let weeklyExpense = 0;
-      let weeklyMotors = 0;
-
-      allData.forEach(d => {
-        if (d.type === 'income') {
-          const biasa = d.motor_biasa || 0;
-          const besar = d.motor_besar || 0;
-          weeklyIncome += (biasa * 7000) + (besar * 8000);
-          weeklyMotors += biasa + besar;
-        } else if (d.type === 'expense') {
-          weeklyExpense += d.amount || 0;
-        }
-      });
-
-      document.getElementById('weekly-income').textContent = formatCurrency(weeklyIncome);
-      document.getElementById('weekly-expense').textContent = formatCurrency(weeklyExpense);
-      document.getElementById('weekly-net').textContent = formatCurrency(weeklyIncome - weeklyExpense);
-      document.getElementById('weekly-motors').textContent = weeklyMotors;
-    }
-
-    function renderIncomeList() {
-      const { incomes } = getDayData();
-      const container = document.getElementById('income-list');
-      
-      if (incomes.length === 0) {
-        container.innerHTML = '<p class="text-slate-500 text-sm text-center py-4">Belum ada data pendapatan</p>';
-        return;
-      }
-
-      container.innerHTML = incomes.map(income => {
-        const total = ((income.motor_biasa || 0) * 7000) + ((income.motor_besar || 0) * 8000);
-        const isConfirming = deleteConfirmId === income.id;
-        return `
-          <div class="bg-slate-800/50 rounded-xl p-3 fade-in ${isConfirming ? 'delete-confirm' : ''}" data-id="${income.id}">
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <p class="text-sm text-slate-400">${new Date(income.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</p>
-                <p class="text-xs text-slate-500 mt-1">
-                  Biasa: ${income.motor_biasa || 0} • Besar: ${income.motor_besar || 0}
-                </p>
-              </div>
-              <div class="text-right flex items-center gap-2">
-                <p class="font-semibold text-green-400">${formatCurrency(total)}</p>
-                ${isConfirming ? `
-                  <button onclick="confirmDeleteIncome('${income.id}')" class="text-xs bg-red-500 text-white px-2 py-1 rounded">Hapus?</button>
-                  <button onclick="cancelDelete()" class="text-xs bg-slate-600 text-white px-2 py-1 rounded">Batal</button>
-                ` : `
-                  <button onclick="requestDeleteIncome('${income.id}')" class="text-red-400 hover:text-red-300 text-sm">🗑️</button>
-                `}
-              </div>
+        <div class="service">
+            <span class="material-symbols-outlined">verified</span>
+            <div>
+                <h3>Open FT CS</h3>
+                <p>TERPERCAYA DAN AMANAH</p>
             </div>
-          </div>
-        `;
-      }).join('');
-    }
+        </div>
 
-    function renderExpenseList() {
-      const { expenses } = getDayData();
-      const container = document.getElementById('expense-list');
-      
-      if (expenses.length === 0) {
-        container.innerHTML = '<p class="text-slate-500 text-sm text-center py-4">Belum ada pengeluaran</p>';
-        return;
-      }
-
-      container.innerHTML = expenses.map(expense => {
-        const isConfirming = deleteConfirmId === expense.id;
-        return `
-          <div class="bg-slate-800/50 rounded-xl p-3 fade-in ${isConfirming ? 'delete-confirm' : ''}" data-id="${expense.id}">
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <p class="font-medium text-white">${expense.description || '-'}</p>
-                <p class="text-xs text-slate-500">${new Date(expense.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</p>
-              </div>
-              <div class="text-right flex items-center gap-2">
-                <p class="font-semibold text-red-400">-${formatCurrency(expense.amount || 0)}</p>
-                ${isConfirming ? `
-                  <button onclick="confirmDeleteExpense('${expense.id}')" class="text-xs bg-red-500 text-white px-2 py-1 rounded">Hapus?</button>
-                  <button onclick="cancelDelete()" class="text-xs bg-slate-600 text-white px-2 py-1 rounded">Batal</button>
-                ` : `
-                  <button onclick="requestDeleteExpense('${expense.id}')" class="text-red-400 hover:text-red-300 text-sm">🗑️</button>
-                `}
-              </div>
+        <div class="service">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            <div>
+                <h3>Jual / Beli Akun</h3>
+                <p>AKUN EPEP ML ROBLOK DLL</p>
             </div>
-          </div>
-        `;
-      }).join('');
-    }
+        </div>
+    </div>
 
-    function requestDeleteIncome(id) {
-      deleteConfirmId = id;
-      renderIncomeList();
-    }
+    <footer>© 2026 • webricoo</footer>
 
-    function requestDeleteExpense(id) {
-      deleteConfirmId = id;
-      renderExpenseList();
-    }
+</div>
 
-    function cancelDelete() {
-      deleteConfirmId = null;
-      renderIncomeList();
-      renderExpenseList();
-    }
-
-    function confirmDeleteIncome(id) {
-      allData = allData.filter(d => d.id !== id);
-      saveData();
-      deleteConfirmId = null;
-      updateUI();
-      showToast('Data pendapatan dihapus');
-    }
-
-    function confirmDeleteExpense(id) {
-      allData = allData.filter(d => d.id !== id);
-      saveData();
-      deleteConfirmId = null;
-      updateUI();
-      showToast('Pengeluaran dihapus');
-    }
-
-    function updateCounterDisplay() {
-      document.getElementById('biasa-count').textContent = biasaCount;
-      document.getElementById('besar-count').textContent = besarCount;
-    }
-
-    function saveIncome() {
-      if (biasaCount === 0 && besarCount === 0) {
-        showToast('Tambahkan jumlah motor terlebih dahulu', true);
-        return;
-      }
-
-      const newIncome = {
-        id: generateId(),
-        type: 'income',
-        day: currentDay,
-        date: new Date().toISOString().split('T')[0],
-        motor_biasa: biasaCount,
-        motor_besar: besarCount,
-        description: '',
-        amount: 0,
-        created_at: new Date().toISOString()
-      };
-
-      allData.push(newIncome);
-      saveData();
-      
-      biasaCount = 0;
-      besarCount = 0;
-      updateCounterDisplay();
-      updateUI();
-      showToast('Pendapatan berhasil disimpan!');
-    }
-
-    function addExpense(description, amount) {
-      if (!description || !amount || amount <= 0) {
-        showToast('Isi keterangan dan jumlah dengan benar', true);
-        return;
-      }
-
-      const newExpense = {
-        id: generateId(),
-        type: 'expense',
-        day: currentDay,
-        date: new Date().toISOString().split('T')[0],
-        motor_biasa: 0,
-        motor_besar: 0,
-        description: description,
-        amount: amount,
-        created_at: new Date().toISOString()
-      };
-
-      allData.push(newExpense);
-      saveData();
-      
-      document.getElementById('expense-desc').value = '';
-      document.getElementById('expense-amount').value = '';
-      updateUI();
-      showToast('Pengeluaran berhasil ditambahkan!');
-    }
-
-    function updateUI() {
-      updateStats();
-      renderIncomeList();
-      renderExpenseList();
-    }
-
-    // Event Listeners
-    document.querySelectorAll('.day-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        currentDay = tab.dataset.day;
-        deleteConfirmId = null;
-        updateDayTabs();
-        updateUI();
-      });
-    });
-
-    document.getElementById('biasa-plus').addEventListener('click', () => {
-      biasaCount++;
-      updateCounterDisplay();
-    });
-
-    document.getElementById('biasa-minus').addEventListener('click', () => {
-      if (biasaCount > 0) {
-        biasaCount--;
-        updateCounterDisplay();
-      }
-    });
-
-    document.getElementById('besar-plus').addEventListener('click', () => {
-      besarCount++;
-      updateCounterDisplay();
-    });
-
-    document.getElementById('besar-minus').addEventListener('click', () => {
-      if (besarCount > 0) {
-        besarCount--;
-        updateCounterDisplay();
-      }
-    });
-
-    document.getElementById('save-income').addEventListener('click', saveIncome);
-
-    document.getElementById('expense-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const desc = document.getElementById('expense-desc').value.trim();
-      const amount = parseInt(document.getElementById('expense-amount').value) || 0;
-      addExpense(desc, amount);
-    });
-
-    // Initialize
-    updateDayTabs();
-    updateCounterDisplay();
-    loadData();
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bbd7a40004aa136',t:'MTc2ODA2MTc3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
